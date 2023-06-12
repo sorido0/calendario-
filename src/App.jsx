@@ -8,10 +8,14 @@ function App() {
 
 
     return (
+        // aqui va el provider
+        // el store es el que tiene el estado global
         <Provider store={store}>
-        <BrowserRouter>
-            <AppRouter />
-        </BrowserRouter>
+            {/* aqui va el router BrowserRouter es para tener todas las rutas */}
+            <BrowserRouter>
+                {/* Aqui llamamos la aplicacion */}
+                <AppRouter />
+            </BrowserRouter>
         </Provider>
     )
 }

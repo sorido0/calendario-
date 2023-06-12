@@ -9,11 +9,12 @@ import { BorrarNota, EventoCalendario, ModalEventos, NuevaNota } from '../compon
 import { useUiStore, EventosCandelario } from '../../hooks';
 
 
-
+// Es para poner en español el calendario
 const locales = {
     'es': esEs,
 }
 
+// Es para poner en español el calendario
 const localizer = dateFnsLocalizer({
     format,
     parse,
@@ -37,7 +38,7 @@ export const CalendarView = () => {
     // const [vista, setVista] = useState("");
     // localStorage.getItem('lastView', vista);
 
-    const eventStyleGEtter = ({/*event, start, end, isSelected*/}) => {
+    const eventStyleGEtter = ({/*event, start, end, isSelected*/ }) => {
         //console.info({ event, start, end, isSelected });
         const style = {
             backgroundColor: '#000',
@@ -52,15 +53,17 @@ export const CalendarView = () => {
     }
 
     const doubleClick = () => {
-       // console.log(evetn);
+        // console.log(evetn);
         openModel();
     }
-    
+
+    // es la funcion que se ejecuta cuando se selecciona un evento
     const selecionarEvento = (evetn) => {
         console.log(evetn);
         setEventoActivo(evetn)
     }
 
+    // es la funcion que se ejecuta cuando se cambia la vista del calendario
     const viewChange = () => {
         //console.log(evetn);
     }

@@ -8,8 +8,6 @@ export function CalendarPages() {
     <div>
       <Navbar />
       <CalendarView />
-
-
     </div>
   )
 }
