@@ -12,5 +12,19 @@ const calendarioApi = axios.create({
 
 // todo: configuramos los interceptores de axios
 
+// Agregamos el token a la cabecera de las peticiones
+
+calendarioApi.interceptors.request.use(config => {
+
+    config.headers = {
+        ...config.headers,
+        'x-sorido0': localStorage.getItem('token')
+    }
+
+    return config;
+}
+);
+
+
 export default calendarioApi;
 

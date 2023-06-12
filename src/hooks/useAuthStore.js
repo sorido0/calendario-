@@ -50,13 +50,59 @@ export const useAuthStore = () => {
             // return data;
 
         } catch (error) {
-            //console.log(error.response.data?.msg)
-            //pistola(onLogout(error.response.data.msg));
+
+            if (error.response.data.errors.email?.msg) {
+                pistola(onLogout(error.response.data.errors.email.msg));
+            }
+
+            if (error.response.data.errors.name?.msg) {
+                pistola(onLogout(error.response.data.errors.name.msg));
+            }
+
+            if (error.response.data.errors.password?.msg) {
+                pistola(onLogout(error.response.data.errors.password.msg));
+            }
+
+            if (error.response.data?.msg) {
+                pistola(onLogout(error.response.data.msg));
+            }
+
             setTimeout(() => {
                 pistola(limpiarError());
             }, 10);
         }
 
+    }
+
+    const verificandoToken = async () => {
+        const toke = localStorage.getItem('token');
+        if (!toke) {
+            return pistola(onLogout(undefined));
+        }
+
+
+        try {
+            const { data } = await calendarApp.get('/auth/nuevotk');
+            console.log(data)
+
+            if (data) {
+                const { name, id, token } = data;
+                localStorage.setItem('token', token);
+                localStorage.setItem('tokenIniciar', new Date().getTime());
+                pistola(verificando());
+                pistola(onLogin({ name, id }));
+            }
+            // return data;
+
+        } catch (error) {
+            localStorage.clear();
+            pistola(onLogout(undefined));
+        }
+    }
+
+    const cerrarSesion = () => {
+        localStorage.clear();
+        pistola(onLogout(undefined));
     }
 
     return {
@@ -68,5 +114,7 @@ export const useAuthStore = () => {
         //* Metodos
         iniciarLogin,
         crearUsuario,
+        verificandoToken,
+        cerrarSesion
     }
 }

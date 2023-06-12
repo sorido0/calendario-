@@ -25,6 +25,14 @@ export const LoginPages = () => {
     const handleLoginSubmit = (e) => {
         e.preventDefault();
         iniciarLogin(loginEmail, loginPassword);
+
+        if (errorMessage === 'login') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Bienvenido',
+                text: 'Gracias por usar nuestra app'
+            })
+        }
     }
 
     const handleRegisterSubmit = (e) => {
@@ -49,25 +57,15 @@ export const LoginPages = () => {
     }
 
     useEffect(() => {
-        console.log(errorMessage)
-        if (errorMessage === 'registrar') {
+        if (errorMessage !== undefined && errorMessage !== 'login' && errorMessage !== 'registrar') {
             Swal.fire({
-                icon: 'success',
-                title: 'Bienvenido',
-                text: 'Usuario creado correctamente'
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMessage
+
             })
         }
 
-        return () => {
-            if (errorMessage !== null) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: errorMessage
-
-                })
-            }
-        }
     }, [errorMessage])
 
 
