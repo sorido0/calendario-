@@ -1,30 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addHours } from "date-fns";
-
-const eventosTemporales = [
-    {
-        _id: new Date().getTime(),
-        title: 'La mamada',
-        nota: 'Me lo mame bien rico',
-        allDay: true,
-        start: new Date(),
-        end: addHours(new Date(), 2),
-        bgColor: '#f00',
-        user: {
-            id: 123,
-            name: 'Angel',
-            lastName: 'Soriano'
-
-        }
-    }
-];
 
 
 export const calendarioStore = createSlice({
     name: "canlendarioStore",
     eventoActivo: null,
     initialState: {
-        eventos: eventosTemporales,
+        isLoading: true,
+        eventos: [],
         eventoActivo: null,
     },
     reducers: {
@@ -41,6 +23,7 @@ export const calendarioStore = createSlice({
             state.eventoActivo = null;
         },
         upEvento: (state, { payload }) => {
+            // comparar con el cogido de la secion
             state.eventos = state.eventos.map(
                 evento => {
                     if (evento._id === payload._id) {
@@ -52,19 +35,32 @@ export const calendarioStore = createSlice({
 
             )
         },
-        deleteEvento: ( state ) => {
+        deleteEvento: (state, { payload }) => {
             state.eventos = state.eventos.filter(
-                evento => evento._id !== state.eventoActivo._id
+                evento => evento._id !== payload
             );
             state.eventoActivo = null;
-        }
+        },
+        onLoadEventos: (state, { payload = [] }) => {
+            state.isLoading = false;
+            // console.log(payload[0])
+            payload.forEach(evento => {
+                const existe = state.eventos.some(dbEvento => dbEvento._id === evento._id);
+                if (!existe) {
+                    state.eventos.push(evento);
+                }
 
-
-
-
+            }
+            )
+            state.eventos = payload
+        },
+    },
+    clearEventos: (state) => {
+        state.eventos = [];
+        state.eventoActivo = null;
     }
 
 });
 
 
-export const { tienesNotaActica, addNuevoEvento, upEvento, deleteEvento } = calendarioStore.actions;
+export const { tienesNotaActica, addNuevoEvento, upEvento, deleteEvento, onLoadEventos, clearEventos } = calendarioStore.actions;

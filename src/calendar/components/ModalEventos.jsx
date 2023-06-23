@@ -10,13 +10,7 @@ import Swal from 'sweetalert2';
 import { useMemo } from 'react';
 import { EventosCandelario, useUiStore } from '../../hooks';
 
-
-
-
 registerLocale('es', es)
-
-
-
 
 const estilosModal = {
     content: {
@@ -33,57 +27,57 @@ const estilosModal = {
 export const ModalEventos = () => {
     Modal.setAppElement('#root');
 
-    const { modalAbierto, closeModal  } = useUiStore();
-    const { eventoActivo, guardarEvento  }  = EventosCandelario();
+    const { modalAbierto, closeModal } = useUiStore();
+    const { eventoActivo, guardarEvento } = EventosCandelario();
     //console.log(eventoActivo);
-    
+
     const [SeEnvio, setSeEnvio] = useState(false)
 
     const [formValue, setFormValue] = useState({
         title: '',
-        nota: '',
+        note: '',
         start: new Date(),
         end: addHours(new Date(), 2),
     });
 
-    
+
     const esCuchaLosImpuet = ({ target }) => {
         setFormValue({
             ...formValue,
             [target.name]: target.value
         })
     }
-    
+
     const claseTituloNora = useMemo(() => {
         if (!SeEnvio) return "";
         let clTitulo = "";
         let clNota = "";
-        
+
         if (formValue.title.length < 2) {
             clTitulo = 'is-invalid';
         } else {
             clTitulo = 'is-valid';
         }
-        
-        if (formValue.nota.length < 2) {
+
+        if (formValue.note.length < 2) {
             clNota = 'is-invalid';
         } else {
             clNota = 'is-valid';
         }
-        
-        
-        return {clNota , clTitulo} ;
-        
-    }, [formValue.title, formValue.nota, SeEnvio])
-    
+
+
+        return { clNota, clTitulo };
+
+    }, [formValue.title, formValue.note, SeEnvio])
+
     useEffect(() => {
 
-        if (eventoActivo != null ) return setFormValue({...eventoActivo});
+        if (eventoActivo != null) return setFormValue({ ...eventoActivo });
     }, [eventoActivo])
-    
-   
+
+
     const cerrarModal = () => {
-       closeModal();
+        closeModal();
     }
 
     const handleSubmit = (e) => {
@@ -102,7 +96,7 @@ export const ModalEventos = () => {
             return Swal.fire('Error', 'El titulo debe tener mas de 2 letras', 'error');
         }
 
-        if (formValue.nota.trim().length < 2) {
+        if (formValue.note.trim().length < 2) {
             return Swal.fire('Error', 'La nota debe tener mas de 2 letras', 'error');
         }
         cerrarModal()
@@ -112,7 +106,7 @@ export const ModalEventos = () => {
         <div>
 
             <Modal
-                isOpen={ modalAbierto }
+                isOpen={modalAbierto}
                 style={estilosModal}
                 onRequestClose={cerrarModal}
                 className="modal"
@@ -177,14 +171,13 @@ export const ModalEventos = () => {
                         <textarea
                             type="text"
                             className={`form-control 
-                            ${
-                                claseTituloNora.clNota
-                            }
+                            ${claseTituloNora.clNota
+                                }
                             `}
                             placeholder="Nota"
                             rows="5"
-                            name="nota"
-                            value={formValue.nota}
+                            name="note"
+                            value={formValue.note}
                             onChange={esCuchaLosImpuet}
                         ></textarea>
                         <small className="form-text text-muted">Información adicional</small>

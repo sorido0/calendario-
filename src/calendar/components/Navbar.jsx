@@ -5,13 +5,13 @@ import { useAuthStore } from "../../hooks";
 export const Navbar = () => {
 
   const { cerrarSesion, user } = useAuthStore()
-  console.log(user.payload.name)
+  //console.log(user)
   return (
     <div className="navbar navbar-dark bg-black mb-4 px-4">
 
       <span className="navbar-brand">
         <FcCalendar />
-        &nbsp; {user.payload.name}
+        &nbsp; {user.name}
       </span>
 
       <button className="btn btn-outline-danger" onClick={cerrarSesion}>

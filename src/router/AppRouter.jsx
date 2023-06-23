@@ -13,7 +13,7 @@ export const AppRouter = () => {
         return () => {
             verificandoToken()
         }
-    }, [])
+    }, [status])
 
 
     // aqui se verifica si el usuario esta logeado para dar acceso a las rutas privadas
